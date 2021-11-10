@@ -13,47 +13,69 @@ def load():
     print('Load...')
 
     try:
-        with open ('words_bank.csv' , 'r') as f:
-            text = f.read()
-            words = text.split('\n')
+        with open ('words_bank.csv' , 'r') as file:
+            file_text = file.read()
+            words = file_text.split('\n')
 
             for i in range(0 , len(words) , 2):
-                DICTIANORY.append({'EN' : words[i] , 'FA' : words[i+1]})
+                DICTIANORY.append({'ENG' : words[i] , 'FAR' : words[i+1]})
         print('loaded.')    
-    except:
+    except FileNotFoundError:
         print("NO file is here!")
         exit()
 
 
-def translate_en_to_fa(input_text):
-    user_words = input_text.split(' ')
-    out_text = ""
+def translate_en_to_fa():
+    inputed_text = input('Enter: ')
+    user_sentence = inputed_text.split('.')
+    outed_text = ""
 
-    for user_word in user_words:
-        for word in DICTIANORY:
-            if user_word == word['EN']:
-                out_text += word['FA'] + ' '
-                break
+    for user_sen in user_sentence:
+        user_words = user_sen.split(' ')
+        for user_word in user_words:
+            for words in DICTIANORY:
+                if user_word == words['ENG']:
+                    outed_text += words['FAR'] + ' '
+                    break
 
-        else:
-            out_text += user_word + ' '
+            else:
+                outed_text += user_word + ' '
             
-    return out_text
+    return outed_text
 
-def translate_fa_to_en(input_text):
-    user_words = input_text.split(' ')
-    out_text = ""
 
-    for user_word in user_words:
-        for word in DICTIANORY:
-            if user_word == word['FA']:
-                out_text += word['EN'] + ' '
-                break
+def translate_fa_to_en():
+    inputed_text = input('Enter: ')
+    user_sentence = inputed_text.split('.')
+    outed_text = ""
 
-        else:
-            out_text += user_word + ' '
+    for user_sen in user_sentence:
+        user_words = user_sen.split(' ')
+        for user_word in user_words:
+            for words in DICTIANORY:
+                if user_word == words['FAR']:
+                    outed_text += words['ENG'] + ' '
+                    break
+
+            else:
+                outed_text += user_word + ' '
             
-    return out_text
+    return outed_text
+
+
+def add():
+    print('add...')
+
+    new_w = {'ENG': input('Enter EN: ')}
+    new_w['FAR'] = input('Enter FA: ')
+
+    DICTIANORY.append(new_w)
+
+    file = open('words_bank.csv' , 'a')
+    file.write('\n' + new_w['ENG'] + '\n' + new_w['FAR'])
+    file.close
+    
+    print('added.')
 
 
 load()
@@ -66,20 +88,14 @@ while True:
     print()
     op = int(input('Input : '))
 
-    if op == 1:
-        user_text = input('Enter: ')
-        out_text = translate_en_to_fa(user_text)
-        print('translated :' , out_text)
-        
+    if op == 1:        
+        print('translated :' , translate_en_to_fa())
 
     elif op == 2:
-        user_text = input('Enter: ')
-        out_text = translate_fa_to_en(user_text)
-        print('translated :' , out_text)
+        print('translated :' , translate_fa_to_en())
     
     elif op == 3:
-        #add()
-        pass
+        add()
         
     elif op == 4:
         print('bye')
