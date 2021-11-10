@@ -12,14 +12,18 @@ def menu():
 def load():
     print('Load...')
 
-    with open ('words_bank.csv' , 'r') as f:
-        text = f.read()
-        words = text.split('\n')
+    try:
+        with open ('words_bank.csv' , 'r') as f:
+            text = f.read()
+            words = text.split('\n')
 
-        for i in range(0 , len(words) , 2):
-            DICTIANORY.append({'EN' : words[i] , 'FA' : words[i+1]})
-        
-    print('loaded.')    
+            for i in range(0 , len(words) , 2):
+                DICTIANORY.append({'EN' : words[i] , 'FA' : words[i+1]})
+        print('loaded.')    
+    except:
+        print("NO file is here!")
+        exit()
+
 
 def translate_en_to_fa(input_text):
     user_words = input_text.split(' ')
@@ -76,7 +80,7 @@ while True:
     elif op == 3:
         #add()
         pass
-
+        
     elif op == 4:
         print('bye')
         exit()
